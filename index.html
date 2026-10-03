@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StarCode · Web Studio</title>
+  <meta name="description" content="A StarCode desenha, programa e publica o site da sua empresa em tempo recorde." />
+  
+  <!-- Favicon com Estrela de 5 Pontas -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239333ea'><path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/></svg>">
+
+  <!-- Fontes: Space Grotesk (títulos nítidos) + Plus Jakarta Sans (leitura perfeita) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f7f5ff;
+      color: #0f0a1c;
+      overflow-x: hidden;
+    }
+    .font-title {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Grelha milimetrada Y2K */
+    .y2k-grid {
+      background-color: #f7f5ff;
+      background-image: 
+        linear-gradient(to right, rgba(147, 51, 234, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* Texto com gradiente metálico Y2K */
+    .text-chrome {
+      background: linear-gradient(135deg, #7e22ce 0%, #3b82f6 50%, #9333ea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Botão com volume 3D */
+    .btn-y2k-purple {
+      background: linear-gradient(180deg, #9333ea 0%, #7e22ce 100%);
+      box-shadow: 0 4px 0 #581c87, 0 8px 16px rgba(126, 34, 206, 0.25);
+      transition: all 0.15s ease-in-out;
+    }
+    .btn-y2k-purple:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #581c87, 0 12px 20px rgba(126, 34, 206, 0.3);
+    }
+    .btn-y2k-purple:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #581c87;
+    }
+
+    .btn-y2k-white {
+      background: #ffffff;
+      box-shadow: 0 4px 0 #cbd5e1, 0 6px 14px rgba(0, 0, 0, 0.08);
+      transition: all 0.15s ease-in-out;
+    }
+    .btn-y2k-white:hover {
+      background: #fdfdfd;
+      transform: translateY(-2px);
+    }
+    .btn-y2k-white:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #cbd5e1;
+    }
+
+    /* Animação para as estrelas de 5 pontas */
+    @keyframes star-pulse {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.6)); }
+      50% { transform: scale(1.15) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.9)); }
+    }
+    .y2k-star {
+      animation: star-pulse 4s ease-in-out infinite;
+    }
+
+    .cyber-card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(147, 51, 234, 0.25);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 30px rgba(76, 29, 149, 0.08);
+    }
+  </style>
+</head>
+<body class="selection:bg-[#9333ea] selection:text-white">
+
+  <!-- ==================== TOPO / BARRA STATUS ==================== -->
+  <div class="border-b border-purple-200 bg-[#ede9fe]/70 px-4 py-1.5 text-center text-xs font-semibold text-purple-900 flex items-center justify-between">
+    <span class="flex items-center gap-1.5">
+      <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      STARCODE.SYS [V2.6]
+    </span>
+    <div class="hidden sm:flex items-center gap-4 text-purple-700">
+      <a href="https://instagram.com/starcodeweb" target="_blank" rel="noreferrer" class="hover:text-purple-950 transition">@starcodeweb</a>
+      <span>&bull;</span>
+      <a href="mailto:starcode.digital@gmail.com" class="hover:text-purple-950 transition">starcode.digital@gmail.com</a>
+    </div>
+    <span class="text-purple-600 flex items-center gap-1">
+      <svg class="h-3 w-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      100% RESPONSIVO
+    </span>
+  </div>
+
+  <!-- ==================== NAVEGAÇÃO ==================== -->
+  <header class="sticky top-0 z-50 bg-[#f7f5ff]/90 backdrop-blur-md border-b border-purple-200/60">
+    <div class="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
+      
+      <!-- LOGÓTIPO COM ESTRELA DE 5 PONTAS -->
+      <a href="#" class="flex items-center gap-2 group">
+        <svg class="h-6 w-6 text-purple-600 y2k-star" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span class="font-title text-2xl font-bold tracking-tight text-neutral-900">
+          star<span class="text-purple-600">code</span>
+        </span>
+      </a>
+
+      <!-- MENU -->
+      <nav class="hidden md:flex items-center gap-6 rounded-full border border-purple-200 bg-white/70 px-6 py-2 text-xs font-semibold text-neutral-700 shadow-sm">
+        <a href="#servicos" class="transition hover:text-purple-600">Serviços</a>
+        <a href="#trabalhos" class="transition hover:text-purple-600">Trabalhos</a>
+        <a href="#como-funciona" class="transition hover:text-purple-600">Como funciona</a>
+        <a href="#precos" class="transition hover:text-purple-600">Preços</a>
+      </nav>
+
+      <!-- BOTÃO PEDIR ORÇAMENTO -->
+      <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Gostaria%20de%20pedir%20um%20or%C3%A7amento%20para%20o%20meu%20site." target="_blank" rel="noreferrer" class="btn-y2k-purple rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white">
+        Pedir orçamento ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="y2k-grid relative px-6 pt-16 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+    
+    <!-- ESTRELAS FLUTUANTES -->
+    <div class="pointer-events-none absolute left-[5%] top-[15%] text-purple-400 opacity-60 y2k-star">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    </div>
+    <div class="pointer-events-none absolute right-[8%] top-[25%] text-cyan-400 opacity-70 y2k-star" style="animation-delay: 1.5s;">
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    </div>
+
+    <div class="mx-auto max-w-4xl text-center relative z-10">
+      
+      <!-- BADGE -->
+      <div class="inline-flex items-center gap-2 rounded-full border border-purple-400/50 bg-white/80 px-4 py-1.5 text-xs font-semibold text-purple-700 shadow-sm backdrop-blur-sm">
+        <svg class="h-3.5 w-3.5 text-purple-600" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span>Sites que saem do papel em dias, não meses</span>
+        <svg class="h-3 w-3 text-cyan-500" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+
+      <!-- TÍTULO -->
+      <h1 class="font-title mt-8 text-5xl font-bold tracking-tight text-neutral-900 sm:text-6xl lg:text-7xl leading-[1.08]">
+        <span class="bg-[#ffd86b] px-3 py-1 rounded-xl text-neutral-900 border-2 border-black inline-block shadow-[4px_4px_0_#000]">A primeira linha</span><br />
+        que vira <span class="text-chrome">um site no ar.</span>
+      </h1>
+
+      <!-- SUBTÍTULO -->
+      <p class="mx-auto mt-6 max-w-2xl text-base text-neutral-700 sm:text-lg leading-relaxed font-normal">
+        A StarCode desenha, escreve e publica o site da sua empresa. Você aprova, a gente entrega. Sem jargão corporativo, sem prazos que esticam.
+      </p>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Quero%20meu%20site%20com%20a%20StarCode." target="_blank" rel="noreferrer" class="btn-y2k-purple rounded-2xl px-8 py-4 text-sm font-bold uppercase tracking-wider text-white">
+          Quero meu site ↗
+        </a>
+        <a href="#como-funciona" class="btn-y2k-white rounded-2xl border border-purple-200 px-7 py-4 text-sm font-semibold text-neutral-800">
+          Ver como funciona ↓
+        </a>
+      </div>
+
+      <!-- DADOS DE CONFIANÇA -->
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-8 text-xs font-semibold text-neutral-600">
+        <div><strong class="text-purple-800">[DESDE 2026]</strong> no mercado</div>
+        <div><strong class="text-purple-800">[1 SITE PUBLICADO]</strong> em produção</div>
+        <div>Média de <strong class="text-purple-800">[11 DIAS]</strong> de entrega</div>
+      </div>
+
+      <!-- JANELA CYBER RETRÔ DO CÓDIGO DA PIZZARIA -->
+      <div class="relative mx-auto mt-14 max-w-2xl text-left">
+        <!-- BALÃO CYBER MAGENTA -->
+        <div class="absolute -top-4 right-4 z-20 flex items-center gap-1.5 rounded-full border border-pink-400 bg-pink-500 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_15px_rgba(236,72,153,0.5)]">
+          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          sem dor de cabeça
+        </div>
+
+        <div class="overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#0d091a] p-6 shadow-[8px_8px_0_#9333ea]">
+          <div class="flex items-center justify-between border-b border-purple-900/60 pb-4">
+            <div class="flex gap-2">
+              <span class="h-3 w-3 rounded-full bg-[#ff5f56]"></span>
+              <span class="h-3 w-3 rounded-full bg-[#ffbd2e]"></span>
+              <span class="h-3 w-3 rounded-full bg-[#27c93f]"></span>
+            </div>
+            <span class="text-xs font-mono text-cyan-300">terminal://pizzaria-doce-vida.site</span>
+          </div>
+
+          <div class="mt-5 font-mono text-xs sm:text-sm leading-relaxed text-slate-300">
+            <p class="text-purple-400">// o seu negócio no ar</p>
+            <p><span class="text-pink-400">const</span> empresa = {</p>
+            <p class="pl-5"><span class="text-slate-400">nome:</span> <span class="text-emerald-400">"Pizzaria Doce Vida"</span>,</p>
+            <p class="pl-5"><span class="text-slate-400">tipo:</span> <span class="text-emerald-400">"cardápio + delivery"</span>,</p>
+            <p class="pl-5"><span class="text-slate-400">prazo:</span> <span class="text-amber-400">11</span>,</p>
+            <p>};</p>
+            <p class="mt-3 text-cyan-400">build<span class="text-white">(empresa);</span></p>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center justify-between rounded-xl bg-purple-950/60 border border-purple-800/40 p-3 text-xs">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold">
+              <span>✓</span> STATUS: 200 OK &bull; site publicado
+            </div>
+            <span class="rounded bg-emerald-500/20 px-2 py-0.5 text-emerald-300 font-bold">⚡ 11 dias</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SERVIÇOS ==================== -->
+  <section id="servicos" class="bg-[#0b0716] px-6 py-24 text-white lg:px-12 border-t-2 border-purple-900">
+    <div class="mx-auto max-w-6xl">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">// O QUE CONSTRUÍMOS</span>
+          <h2 class="font-title mt-3 text-4xl font-bold sm:text-5xl">
+            Cada negócio pede<br />um site do seu jeito.
+          </h2>
+        </div>
+        <p class="max-w-md text-sm text-purple-200/80 leading-relaxed">
+          Do cardápio ultra rápido ao portfólio de alta conversão. Escolha o formato e nós desenhamos a solução perfeita.
+        </p>
+      </div>
+
+      <!-- CARDS COLORIDOS -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        
+        <!-- CARD 1: RESTAURANTES & DELIVERY -->
+        <div class="rounded-3xl border-2 border-purple-500 bg-gradient-to-br from-purple-800 to-indigo-900 p-8 text-white flex flex-col justify-between min-h-[300px] lg:col-span-2 shadow-[6px_6px_0_#38bdf8]">
+          <div>
+            <span class="inline-block rounded-full bg-white/15 border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-300">
+              cardápio + delivery
+            </span>
+            <h3 class="font-title mt-6 text-3xl font-bold">Restaurantes e delivery</h3>
+            <p class="mt-3 text-sm text-white/90 max-w-md leading-relaxed">
+              Cardápio que abre instantaneamente no telemóvel, botão de pedido direto para o WhatsApp e navegação fluida.
+            </p>
+          </div>
+          <div class="mt-8 flex items-center justify-between">
+            <div class="flex gap-2">
+              <span class="h-3 w-3 rounded-full bg-cyan-400"></span>
+              <span class="h-3 w-3 rounded-full bg-purple-300"></span>
+              <span class="h-3 w-3 rounded-full bg-pink-400"></span>
+            </div>
+            <a href="#trabalhos" class="text-xs font-bold uppercase tracking-wider text-cyan-300 hover:underline">
+              Ver exemplo real →
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 2: SALÕES E CLÍNICAS -->
+        <div class="rounded-3xl border-2 border-teal-500 bg-gradient-to-br from-teal-800 to-emerald-950 p-8 text-white flex flex-col justify-between min-h-[300px] shadow-[6px_6px_0_#14b8a6]">
+          <div>
+            <span class="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal-200">
+              agendamento
+            </span>
+            <h3 class="font-title mt-6 text-2xl font-bold">Salões e clínicas</h3>
+            <p class="mt-3 text-sm text-teal-100/90">
+              Agenda online e catálogo de procedimentos onde o cliente marca sozinho.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Quero%20um%20site%20para%20sal%C3%A3o/cl%C3%ADnica." target="_blank" rel="noreferrer" class="text-xs font-bold uppercase tracking-wider text-teal-300 hover:underline">
+            Ver detalhes →
+          </a>
+        </div>
+
+        <!-- CARD 3: SERVIÇOS E CONSULTORES -->
+        <div class="rounded-3xl border-2 border-amber-400 bg-gradient-to-br from-amber-400 to-yellow-500 p-8 text-neutral-950 flex flex-col justify-between min-h-[300px] shadow-[6px_6px_0_#f59e0b]">
+          <div>
+            <span class="inline-block rounded-full bg-black/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-neutral-900">
+              portfólio
+            </span>
+            <h3 class="font-title mt-6 text-2xl font-bold">Serviços e consultores</h3>
+            <p class="mt-3 text-sm text-neutral-900 font-medium">
+              Uma página profissional que vende o seu trabalho, método e autoridade.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Gostaria%20de%20um%20site%20de%20servi%C3%A7os." target="_blank" rel="noreferrer" class="text-xs font-bold uppercase tracking-wider text-neutral-950 hover:underline">
+            Solicitar proposta →
+          </a>
+        </div>
+
+        <!-- CARD 4: LOJAS E E-COMMERCE -->
+        <div class="rounded-3xl border-2 border-blue-500 bg-gradient-to-br from-blue-700 to-indigo-950 p-8 text-white flex flex-col justify-between min-h-[300px] shadow-[6px_6px_0_#3b82f6]">
+          <div>
+            <span class="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-200">
+              catálogo
+            </span>
+            <h3 class="font-title mt-6 text-2xl font-bold">Lojas e e-commerce</h3>
+            <p class="mt-3 text-sm text-blue-100/90">
+              Catálogo leve, checkout prático e fecho direto sem complicações de sistema.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Quero%20um%20cat%C3%A1logo/loja." target="_blank" rel="noreferrer" class="text-xs font-bold uppercase tracking-wider text-cyan-300 hover:underline">
+            Saber mais →
+          </a>
+        </div>
+
+        <!-- CARD 5: INSTITUCIONAL E EVENTOS -->
+        <div class="rounded-3xl border-2 border-pink-500 bg-gradient-to-br from-pink-600 to-rose-900 p-8 text-white flex flex-col justify-between min-h-[300px] shadow-[6px_6px_0_#ec4899]">
+          <div>
+            <span class="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-pink-200">
+              institucional
+            </span>
+            <h3 class="font-title mt-6 text-2xl font-bold">Institucional e eventos</h3>
+            <p class="mt-3 text-sm text-pink-100/90">
+              Apresentação elegante da sua empresa com formulários e localização.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Quero%20um%20site%20institucional." target="_blank" rel="noreferrer" class="text-xs font-bold uppercase tracking-wider text-pink-200 hover:underline">
+            Iniciar projeto →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRABALHOS FEITOS (PEDACINHO DO CÉU) ==================== -->
+  <section id="trabalhos" class="y2k-grid px-6 py-24 text-neutral-900 lg:px-12 border-b-2 border-purple-200">
+    <div class="mx-auto max-w-6xl">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-purple-700">// CASOS REAIS</span>
+          <h2 class="font-title mt-3 text-4xl font-bold sm:text-5xl">
+            Sites no ar,<br />clientes vendendo.
+          </h2>
+        </div>
+        <p class="max-w-md text-sm text-neutral-700 font-medium">
+          Cada projeto sai do papel com identidade única. Este é o nosso case em produção e está publicado ao vivo.
+        </p>
+      </div>
+
+      <div class="cyber-card rounded-3xl border-2 border-purple-900/40 p-8 sm:p-12 shadow-[10px_10px_0_rgba(147,51,234,0.3)]">
+        <div class="grid gap-12 lg:grid-cols-2 items-center">
+          
+          <!-- PRÉ-VISUALIZAÇÃO DO SITE DA ALINE -->
+          <div class="overflow-hidden rounded-2xl border-2 border-neutral-900 bg-[#fffaf7] shadow-xl">
+            <div class="flex items-center gap-2 border-b-2 border-neutral-900 bg-[#fbf5f2] px-4 py-3">
+              <span class="h-3 w-3 rounded-full bg-rose-500 border border-neutral-900"></span>
+              <span class="h-3 w-3 rounded-full bg-amber-400 border border-neutral-900"></span>
+              <span class="h-3 w-3 rounded-full bg-emerald-400 border border-neutral-900"></span>
+              <span class="ml-2 text-xs font-mono text-neutral-600 font-bold">pedacinho-do-ceu.vercel.app</span>
+            </div>
+            
+            <div class="p-8 text-center text-[#71392b]">
+              <span class="text-[0.65rem] font-bold uppercase tracking-widest text-[#df5b87] bg-pink-100 px-3 py-1 rounded-full">
+                FEITO COM CARINHO
+              </span>
+              <h3 class="font-title mt-4 text-3xl font-bold leading-tight">
+                Um pedacinho de carinho para celebrar.
+              </h3>
+              <p class="mt-3 text-xs text-[#71392b]/80">
+                Doces preparados pela Aline Ferreira para fazer do seu momento uma memória especial.
+              </p>
+              <div class="mt-6 flex justify-center gap-3">
+                <span class="rounded-full bg-[#71392b] px-4 py-2 text-xs font-bold text-white shadow-md">
+                  Pedir pelo WhatsApp ↗
+                </span>
+                <span class="rounded-full border border-[#71392b]/40 px-4 py-2 text-xs font-bold">
+                  Ver o menu
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- DETALHES DO PROJETO -->
+          <div>
+            <div class="inline-flex items-center gap-1.5 rounded-full bg-purple-100 border border-purple-300 px-3 py-1 text-xs font-bold text-purple-800">
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              confeitaria artesanal
+            </div>
+            
+            <h3 class="font-title mt-4 text-3xl font-bold sm:text-4xl text-neutral-900">
+              Pedacinho do Céu
+            </h3>
+            
+            <p class="mt-4 text-neutral-700 leading-relaxed text-sm sm:text-base">
+              Cardápio digital leve com navegação dinâmica entre categorias, valores transparentes e fecho direto no WhatsApp — do jeito prático e elegante que a Aline precisava.
+            </p>
+
+            <ul class="mt-6 space-y-3 text-xs sm:text-sm font-semibold text-neutral-800">
+              <li class="flex items-center gap-3">
+                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-purple-200 text-purple-800 text-xs">✓</span>
+                Abas dinâmicas interativas (Cardápio Festivo & Bolos Caseiros)
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-purple-200 text-purple-800 text-xs">✓</span>
+                Encaminhamento automático de pedidos para o WhatsApp
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-purple-200 text-purple-800 text-xs">✓</span>
+                Cópia de chave Pix em um clique & Deploy global na Vercel
+              </li>
+            </ul>
+
+            <div class="mt-8">
+              <a href="https://pedacinho-do-ceu.vercel.app" target="_blank" rel="noreferrer" class="btn-y2k-purple inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-xs font-bold uppercase text-white">
+                <span>Visitar site ao vivo</span> ↗
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== COMO FUNCIONA ==================== -->
+  <section id="como-funciona" class="bg-white px-6 py-24 text-neutral-900 lg:px-12 border-b-2 border-purple-200">
+    <div class="mx-auto max-w-6xl">
+      <span class="text-xs font-bold uppercase tracking-widest text-purple-700">// FLUXO DE TRABALHO</span>
+      <h2 class="font-title mt-3 text-4xl font-bold sm:text-5xl">
+        Quatro passos. Um site no ar.
+      </h2>
+
+      <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- PASSO 1 -->
+        <div class="p-6 rounded-2xl border-2 border-neutral-900 bg-[#fbf9ff] shadow-[4px_4px_0_#9333ea]">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-600 text-white font-title font-bold text-xl shadow-md">
+            1
+          </div>
+          <h4 class="font-title mt-6 text-xl font-bold">A gente conversa</h4>
+          <p class="mt-2 text-xs text-neutral-600 leading-relaxed font-normal">
+            Uma conversa rápida para alinhar o que o seu negócio precisa.
+          </p>
+        </div>
+
+        <!-- PASSO 2 -->
+        <div class="p-6 rounded-2xl border-2 border-neutral-900 bg-[#fbf9ff] shadow-[4px_4px_0_#14b8a6]">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-500 text-white font-title font-bold text-xl shadow-md">
+            2
+          </div>
+          <h4 class="font-title mt-6 text-xl font-bold">A gente desenha</h4>
+          <p class="mt-2 text-xs text-neutral-600 leading-relaxed font-normal">
+            Apresentamos o layout para aprovação antes de iniciar o código.
+          </p>
+        </div>
+
+        <!-- PASSO 3 -->
+        <div class="p-6 rounded-2xl border-2 border-neutral-900 bg-[#fbf9ff] shadow-[4px_4px_0_#f59e0b]">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-400 text-neutral-950 font-title font-bold text-xl shadow-md">
+            3
+          </div>
+          <h4 class="font-title mt-6 text-xl font-bold">A gente constrói</h4>
+          <p class="mt-2 text-xs text-neutral-600 leading-relaxed font-normal">
+            Código limpo, textos prontos e alta velocidade no smartphone.
+          </p>
+        </div>
+
+        <!-- PASSO 4 -->
+        <div class="p-6 rounded-2xl border-2 border-neutral-900 bg-[#fbf9ff] shadow-[4px_4px_0_#3b82f6]">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white font-title font-bold text-xl shadow-md">
+            4
+          </div>
+          <h4 class="font-title mt-6 text-xl font-bold">A gente publica</h4>
+          <p class="mt-2 text-xs text-neutral-600 leading-relaxed font-normal">
+            Site ativo, domínio configurado e você no comando.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PREÇOS ==================== -->
+  <section id="precos" class="y2k-grid px-6 py-24 text-neutral-900 lg:px-12">
+    <div class="mx-auto max-w-6xl">
+      <span class="text-xs font-bold uppercase tracking-widest text-purple-700">// INVESTIMENTO</span>
+      <h2 class="font-title mt-3 text-4xl font-bold sm:text-5xl">
+        Sem mensalidade<br />escondida.
+      </h2>
+      <p class="mt-4 max-w-xl text-sm text-neutral-700 font-medium">
+        Paga uma taxa única pelo desenvolvimento e, se desejar, manutenção opcional de R$ 70/mês. Sem fidelidade forçada.
+      </p>
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        
+        <!-- PLANO SIMPLES -->
+        <div class="rounded-3xl border-2 border-neutral-900 bg-white p-8 shadow-[6px_6px_0_#cbd5e1] flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase text-purple-700">Simples</span>
+            <div class="mt-3 font-title text-4xl font-bold text-neutral-900">R$ 800,00</div>
+            <p class="mt-4 text-xs text-neutral-600 leading-relaxed">
+              Uma página objetiva e rápida. Ideal para profissionais em início de atividade.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Gostaria%20do%20plano%20Simples%20(R$%20800)." target="_blank" rel="noreferrer" class="mt-8 block rounded-xl border border-neutral-900 bg-neutral-100 py-3 text-center text-xs font-bold uppercase tracking-wider text-neutral-900 transition hover:bg-neutral-200">
+            Escolher plano →
+          </a>
+        </div>
+
+        <!-- PLANO COMPLETO -->
+        <div class="rounded-3xl border-2 border-purple-500 bg-gradient-to-b from-[#8b5cf6] to-[#6d28d9] p-8 shadow-[8px_8px_0_#0f0a1c] flex flex-col justify-between text-white relative">
+          <span class="absolute -top-3.5 right-6 flex items-center gap-1 rounded-full bg-cyan-400 text-black px-3 py-0.5 text-[0.68rem] font-bold uppercase tracking-wider">
+            <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Mais pedido
+          </span>
+          <div>
+            <span class="text-xs font-bold uppercase text-cyan-200">Completo</span>
+            <div class="mt-3 font-title text-4xl font-bold text-white">R$ 1.500</div>
+            <p class="mt-4 text-xs text-purple-100 leading-relaxed">
+              Várias secções, cardápios interativos, formulários e integração com redes sociais.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Gostaria%20do%20plano%20Completo%20(R$%201.500)." target="_blank" rel="noreferrer" class="mt-8 block rounded-xl bg-white py-3.5 text-center text-xs font-bold uppercase tracking-wider text-neutral-950 transition hover:bg-purple-50 shadow-md">
+            Escolher plano →
+          </a>
+        </div>
+
+        <!-- SOB MEDIDA -->
+        <div class="rounded-3xl border-2 border-neutral-900 bg-[#100b20] p-8 text-white shadow-[6px_6px_0_#9333ea] flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase text-purple-400">Custom</span>
+            <div class="mt-3 font-title text-3xl font-bold text-white">Sob medida</div>
+            <p class="mt-4 text-xs text-neutral-400 leading-relaxed">
+              Soluções personalizadas, sistemas sob encomenda ou catálogos complexos.
+            </p>
+          </div>
+          <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Tenho%20um%20projeto%20sob%20medida%20para%20conversar." target="_blank" rel="noreferrer" class="mt-8 block rounded-xl bg-purple-900/60 border border-purple-500 py-3 text-center text-xs font-bold uppercase tracking-wider text-cyan-300 transition hover:bg-purple-800">
+            Falar com a Luani →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BANNER FINAL CTA ==================== -->
+  <section class="bg-gradient-to-r from-purple-800 via-indigo-900 to-purple-900 px-6 py-20 text-white lg:px-12 text-center border-t-2 border-neutral-900 relative overflow-hidden">
+    <div class="pointer-events-none absolute left-[10%] top-[30%] text-cyan-300 opacity-60 y2k-star">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    </div>
+    <div class="pointer-events-none absolute right-[10%] bottom-[30%] text-purple-300 opacity-60 y2k-star">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    </div>
+
+    <div class="mx-auto max-w-4xl relative z-10">
+      <h2 class="font-title text-4xl font-bold sm:text-6xl leading-tight">
+        Bora tirar seu<br />negócio do papel?
+      </h2>
+      <p class="mx-auto mt-6 max-w-lg text-sm text-purple-200 sm:text-base">
+        Partilha o que tens em mente e respondemos num dia útil.
+      </p>
+      <div class="mt-8">
+        <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Bora%20tirar%20meu%20neg%C3%B3cio%20do%20papel?" target="_blank" rel="noreferrer" class="btn-y2k-white inline-block rounded-2xl px-8 py-4 text-xs font-bold uppercase tracking-wider text-neutral-950">
+          Pedir orçamento ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== RODAPÉ COM INSTA E EMAIL ==================== -->
+  <footer class="bg-[#090514] px-6 py-16 text-neutral-400 lg:px-12 border-t border-purple-900/60">
+    <div class="mx-auto max-w-6xl grid gap-10 md:grid-cols-3">
+      
+      <!-- IDENTIDADE -->
+      <div>
+        <div class="flex items-center gap-2 text-white font-title font-bold text-xl">
+          <svg class="h-5 w-5 text-cyan-400 y2k-star" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          starcode
+        </div>
+        <p class="mt-4 text-xs text-neutral-400 max-w-xs leading-relaxed">
+          Estúdio de desenvolvimento e design focado em páginas web ultrarrápidas para marcas autênticas e pequenos negócios.
+        </p>
+        <p class="mt-6 text-[0.7rem] text-neutral-500">
+          &copy; 2026 StarCode. Por Luani Ferreira &bull; Goiânia, Brasil.
+        </p>
+      </div>
+
+      <!-- SERVIÇOS -->
+      <div class="text-xs">
+        <h5 class="font-bold text-white uppercase tracking-wider mb-4">// SERVIÇOS</h5>
+        <ul class="space-y-2 text-neutral-400">
+          <li>Restaurantes & Gastronomia</li>
+          <li>Salões & Estética</li>
+          <li>Lojas & Catálogos Digitais</li>
+          <li>Páginas Institucionais</li>
+        </ul>
+      </div>
+
+      <!-- CONTACTO OFICIAL -->
+      <div class="text-xs">
+        <h5 class="font-bold text-white uppercase tracking-wider mb-4">// CONTACTO & REDES</h5>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-2">
+            <span class="text-purple-400">WhatsApp:</span>
+            <a href="https://wa.me/5562994392942" target="_blank" rel="noreferrer" class="text-white hover:text-cyan-400 hover:underline">
+              (62) 99439-2942 ↗
+            </a>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="text-purple-400">Instagram:</span>
+            <a href="https://instagram.com/starcodeweb" target="_blank" rel="noreferrer" class="text-cyan-400 hover:underline font-semibold">
+              @starcodeweb ↗
+            </a>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="text-purple-400">E-mail:</span>
+            <a href="mailto:starcode.digital@gmail.com" class="text-white hover:text-cyan-400 hover:underline">
+              starcode.digital@gmail.com
+            </a>
+          </li>
+          <li class="pt-2 text-[0.7rem] text-neutral-500">
+            Atendimento digital em todo o Brasil.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- BOTÃO FLUTUANTE DO WHATSAPP -->
+  <a href="https://wa.me/5562994392942?text=Ol%C3%A1,%20Luani!%20Vim%20pelo%20site%20da%20StarCode." target="_blank" rel="noreferrer" class="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-[0_4px_20px_rgba(37,211,102,0.4)] transition hover:scale-110">
+    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+    </svg>
+  </a>
+
+</body>
+</html>
